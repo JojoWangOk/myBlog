@@ -21,12 +21,11 @@
     },
     data () {
       return {
-        isLogin: true
+        isLogin: false
       }
     },
     created: function () {
       this.$http.get('/api/accessuser').then(
-
         res => {
           if (res.body.name){
             this.isLogin = res.body.name;
@@ -34,7 +33,6 @@
           } else {
             this.$router.push({ path: '/'})
           }
-
         },
         res => {
           console.log(res)
@@ -44,7 +42,21 @@
 
 
     directives: {},
-    methods: {}
+    methods: {},
+    watch: {
+      '$router': function () {
+        this.$http.get('/api/accessuser').then(
+          res => {
+            if (res.body.name){
+              this.isLogin = res.body.name;
+            }
+          },
+          res => {
+            console.log(res)
+          }
+        )
+      }
+    }
   }
 </script>
 

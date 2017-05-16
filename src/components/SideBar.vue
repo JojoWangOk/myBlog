@@ -1,5 +1,5 @@
 <template>
-  <el-menu mode="vertical" default-active="1" theme="dark">
+  <el-menu mode="vertical" default-active="3" theme="dark">
     <el-menu-item-group title="">
       <el-menu-item index="1">
         <router-link :to="'articleList'" class="link-item"><i class="el-icon-document"></i>列表</router-link>

@@ -43,7 +43,9 @@
       getInfo: function () {
         this.$http.get('/api/blogInformation', {form: this.form}).then(
           (res) => {
-            if(res.body.length){
+            console.log(res)
+            if(res.body.length>0){
+
               this.form = res.body[0]
             }
           },
