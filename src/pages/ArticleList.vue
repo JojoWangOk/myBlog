@@ -5,8 +5,8 @@
       <el-col :xs="5" :sm="5" :md="5" :lg="5" class="left-list">
         <h3 class="list-title">文章列表<i class="el-icon-plus" @click="addArticle"></i></h3>
         <ul class="article-list">
-          <li v-for="item in articleList">
-            <p class="title">{{item.title}}</p>
+          <li v-for="item in articleList" @click="goPreview(item._id)">
+            <p class="title" :class="{'draft-title': item.state == 'draft'}">{{item.title}}</p>
             <p class="date">{{item.date | formatTime}}
               <span>{{item.label}}</span>
             </p>
@@ -16,7 +16,7 @@
 
 
       <el-col :xs="19" :sm="19" :md="19" :lg="19">
-        <router-view></router-view>
+        <router-view @refreshArticle="getArticleList"></router-view>
       </el-col>
     </el-row>
   </div>
@@ -40,8 +40,11 @@
       },
 
       addArticle: function(){
-        this.$router.push('/articleList/editArticle')
+        this.$router.push('/articleList/articleEdit')
       },
+      goPreview: function (id) {
+        this.$router.push('/articleList/articlePreview/'+id)
+      }
     },
     created (){
       this.getArticleList();
@@ -75,6 +78,9 @@
           color: #20a0ff;
           line-height: 20px;
           font-size: 16px;
+        }
+        .draft-title{
+          color: #ff2222;
         }
         .date{
           font-size: 12px;

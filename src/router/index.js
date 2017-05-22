@@ -8,7 +8,8 @@ import '../utils/filters'
 import Login from '@/pages/Login'
 import Home from '@/pages/Home'
 import ArticleList from '@/pages/ArticleList'
-import EditArticle from '@/pages/EditArticle'
+import ArticleEdit from '@/pages/ArticleEdit'
+import ArticlePreview from '@/pages/ArticlePreview'
 
 Vue.use(Router);
 Vue.use(ElementUI);
@@ -31,7 +32,8 @@ export default new Router({
       name: 'ArticleList',
       component: ArticleList,
       children:[
-        {path: 'editArticle', component: EditArticle}
+        {path: 'articleEdit', component: ArticleEdit},
+        {path: 'articlePreview/:id', component: ArticlePreview}
       ]
 
     }

@@ -92,5 +92,46 @@ router.get('/api/admin/articleList', function (req, res) {
   })
 });
 
+//文章详情
+router.get('/api/articleDetails/:id', function (req, res) {
+  db.Article.findOne({_id: req.params.id}, function (err, docs) {
+    if (err){
+      return
+    }
+    res.send(docs)
+  })
+});
+router.post('/api/articleDetails', function(req, res){
+  db.Article.findOne({_id: req.body.id}, function(err, docs){
+    if (err) {
+      return
+    }
+    res.send(docs)
+  })
+});
+//文章保存
+router.post('/api/saveArticle', function (req, res) {
+
+  new db.Article(req.body).save(function (error) {
+    if (error) {
+      res.status(500).send();
+      return
+    }
+    if (req.body.state !== 'draft') {
+      db.Article.find({label: req.body.label}, function (err, ArticleList) {
+        if (err) {
+          return
+        }
+        db.TagList.find({tagName:　req.body.tagName}, function (err, docs) {
+          if(docs.length>0){
+            docs[0].tagNumber = ArticleList.length;
+            db.TagList(docs[0]).save(function(error){})
+          }
+        })
+      })
+    }
+    res.send();
+  })
+});
 
 module.exports = router;
