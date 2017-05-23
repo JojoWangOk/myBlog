@@ -10,6 +10,7 @@ import Home from '@/pages/Home'
 import ArticleList from '@/pages/ArticleList'
 import ArticleEdit from '@/pages/ArticleEdit'
 import ArticlePreview from '@/pages/ArticlePreview'
+import ArticleLabel from '@/pages/ArticleLabel'
 
 Vue.use(Router);
 Vue.use(ElementUI);
@@ -35,7 +36,11 @@ export default new Router({
         {path: 'articleEdit', component: ArticleEdit},
         {path: 'articlePreview/:id', component: ArticlePreview}
       ]
-
-    }
+    },
+    {
+      path: '/labels',
+      name: 'ArticleLabel',
+      component: ArticleLabel
+    },
   ]
 })

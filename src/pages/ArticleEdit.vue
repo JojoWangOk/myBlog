@@ -24,7 +24,7 @@
 
 
       <div class="action-button">
-        <!--<el-button v-if="this.$route.query.id" type="danger" size="small" @click="delectArticles">删除</el-button>-->
+        <el-button v-if="this.$route.query.id" type="danger" size="small" @click="deleteArticle">删除</el-button>
         <el-button size="small" @click="saveArticle('draft')">保存草稿</el-button>
         <el-button type="primary" size="small" @click="saveArticle('publish')">发布文章</el-button>
       </div>
@@ -85,7 +85,7 @@
             res => {
               this.articleTitle = res.body.title;
               this.selectedTag.push({tagName: res.body.label});
-              smde.value(res.body.articleContent)
+              smde.value(res.body.content)
             },
             res => {
               console.log(response)
@@ -107,25 +107,35 @@
         this.selectedTag.splice(0, 1);
       },
       saveArticle: function (arstate) {
-        let self = this;
+
+        let labelName = this.selectedTag.length ?  this.selectedTag[0].tageName : '未分类';
+        let info = {
+          title: this.articleTitle,
+          content: this.content,
+          date: new Date(),
+          state: arstate,
+          label: labelName
+        };
 
         if (this.$route.query.id){
-          console.log('update')
+          info._id = this.$route.query.id;
+          this.$http.post('/api/updateArticle', info)
+            .then(
+              res => {
+                Message.success('文章发布成功');
+                this.$emit('refreshArticle');
+              },
+              res => {
+                Message.error('文章发布失败')
+              }
+            )
         } else {
-          let labelName = this.selectedTag.length ?  this.selectedLabel[0].tageName : '未分类';
-          let info = {
-            title: self.articleTitle,
-            content: self.content,
-            date: new Date(),
-            state: arstate,
-            label: labelName
-          };
-          console.log(info);
+
           this.$http.post('/api/saveArticle', info)
             .then(
               res => {
                 Message.success('文章发布成功');
-                self.$emit('refreshArticle');
+                this.$emit('refreshArticle');
               },
               res => {
                 Message.error('文章发布失败')
@@ -133,6 +143,16 @@
             )
         }
       },
+      deleteArticle: function () {
+        this.$http.post('/api/deleteArticle', {_id: this.$route.query.id})
+          .then(
+            res => {
+              Message.success('文章删除成功');
+              this.$emit('refreshArticle');
+              this.$router.push('/articleList');
+            }
+          )
+      }
     }
   }
 </script>

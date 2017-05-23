@@ -48,7 +48,10 @@
     },
     created (){
       this.getArticleList();
-    }
+    },
+    watch: {
+      '$route': 'getArticleList'
+    },
   }
 </script>
 <style lang="less" scoped>

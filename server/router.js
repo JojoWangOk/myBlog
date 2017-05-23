@@ -134,4 +134,74 @@ router.post('/api/saveArticle', function (req, res) {
   })
 });
 
+//文章编辑更新
+router.post('/api/updateArticle', function (req, res) {
+  db.Article.find({_id: req.body._id}, function (err, docs) {
+    if (err) {
+      return
+    }
+    docs[0].title = req.body.title;
+    docs[0].content = req.body.content;
+    docs[0].date = docs[0].date;
+    docs[0].state = req.body.state;
+    docs[0].label = req.body.label;
+
+    db.Article(docs[0]).save(function (err) {
+      if (err){
+        res.status(500).send();
+        return
+      }
+      res.send()
+    })
+  })
+});
+
+//文章删除
+router.post('/api/deleteArticle', function (req, res) {
+
+  db.Article.remove({_id: req.body._id}, function (err, docs) {
+    if (err) {
+      res.status(500).send();
+      return
+    }
+    res.send()
+  })
+});
+
+/*标签-------------------------------*/
+router.get('/api/getLabels', function (req, res) {
+  db.TagList.find({}, function (err, docs) {
+    if (err) return;
+    res.json(docs)
+  })
+});
+
+router.post('/api/saveLabels', function(req, res){
+  db.TagList.find({tagName: req.body.tagName}, function (err, docs) {
+    if (err) return;
+    console.log(11111111,docs)
+    if(docs.length>0){
+      res.json({error: true, msg: '标签已存在'})
+    } else {
+      new db.TagList(req.body).save(function(error){
+        if (error) {
+          res.status(500).send();
+          return
+        }
+        res.send()
+      })
+    }
+
+  })
+});
+router.post('/api/deleteLabel', function (req, res) {
+  db.TagList.remove({_id: req.body._id}, function (err, docs) {
+    if (err) {
+      res.status(500).send();
+      return
+    }
+    res.send()
+  })
+});
+
 module.exports = router;

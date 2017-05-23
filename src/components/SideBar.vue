@@ -2,13 +2,13 @@
   <el-menu mode="vertical" default-active="3" theme="dark">
     <el-menu-item-group title="">
       <el-menu-item index="1">
-        <router-link :to="'articleList'" class="link-item"><i class="el-icon-document"></i>列表</router-link>
+        <router-link :to="{ path: '/articleList' }" class="link-item"><i class="el-icon-document"></i>列表</router-link>
       </el-menu-item>
       <el-menu-item index="2">
-        <router-link :to="'home'" class="link-item"><i class="el-icon-star-on"></i>标签</router-link>
+        <router-link :to="{ path: '/labels' }" class="link-item"><i class="el-icon-star-on"></i>标签</router-link>
       </el-menu-item>
       <el-menu-item index="3">
-        <router-link :to="'home'" class="link-item"><i class="el-icon-information"></i>信息</router-link>
+        <router-link :to="{ path: '/home' }" class="link-item"><i class="el-icon-information"></i>信息</router-link>
       </el-menu-item>
     </el-menu-item-group>
   </el-menu>
