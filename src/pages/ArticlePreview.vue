@@ -3,7 +3,7 @@
     <transition name="fade" mode="out-in">
       <div v-for="item in content" v-if="content.length>0">
         <div class="article-title">{{item.title}}</div>
-        <div style="color:#34495e" v-compiledMarkdown>{{item.articleContent}}</div>
+        <div style="color:#34495e" v-compiledMarkdown>{{item.content}}</div>
         <div class="edit-box">
           <el-button type="primary" icon="edit" @click="goEdit(item._id)">不满意，点此修改</el-button>
         </div>
@@ -48,7 +48,6 @@
         this.$http.get('/api/articleDetails/'+id)
           .then(
             res => {
-              console.log(res.body)
               this.content.push(res.body)
             },
             res => {

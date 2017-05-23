@@ -43,7 +43,6 @@ router.get('/api/blogInformation', function (req, res) {
       res.status(500).send();
       return
     }
-    console.log(docs)
     res.json(docs)
   })
 });
@@ -91,7 +90,15 @@ router.get('/api/admin/articleList', function (req, res) {
     res.json(docs)
   })
 });
-
+router.post('/api/admin/articleList', function (req, res) {
+  db.Article.find({label: req.body.label}, function (err, docs) {
+    if (err) {
+      res.status(500).send();
+      return
+    }
+    res.json(docs)
+  })
+});
 //文章详情
 router.get('/api/articleDetails/:id', function (req, res) {
   db.Article.findOne({_id: req.params.id}, function (err, docs) {
@@ -122,7 +129,7 @@ router.post('/api/saveArticle', function (req, res) {
         if (err) {
           return
         }
-        db.TagList.find({tagName:　req.body.tagName}, function (err, docs) {
+        db.TagList.find({tagName:　req.body.label}, function (err, docs) {
           if(docs.length>0){
             docs[0].tagNumber = ArticleList.length;
             db.TagList(docs[0]).save(function(error){})
@@ -179,7 +186,7 @@ router.get('/api/getLabels', function (req, res) {
 router.post('/api/saveLabels', function(req, res){
   db.TagList.find({tagName: req.body.tagName}, function (err, docs) {
     if (err) return;
-    console.log(11111111,docs)
+
     if(docs.length>0){
       res.json({error: true, msg: '标签已存在'})
     } else {

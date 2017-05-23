@@ -97,6 +97,9 @@
       }
 
     },
+    created (){
+      this.getLabels();
+    },
     methods: {
 
       selectTag: function (item) {
@@ -108,7 +111,7 @@
       },
       saveArticle: function (arstate) {
 
-        let labelName = this.selectedTag.length ?  this.selectedTag[0].tageName : '未分类';
+        let labelName = this.selectedTag.length ?  this.selectedTag[0].tagName : '未分类';
         let info = {
           title: this.articleTitle,
           content: this.content,
@@ -152,7 +155,18 @@
               this.$router.push('/articleList');
             }
           )
-      }
+      },
+      getLabels: function () {
+        this.$http.get('/api/getLabels')
+          .then(
+            res => {
+              this.tagList = res.body;
+            },
+            res => {
+              console.log(res)
+            }
+          )
+      },
     }
   }
 </script>
